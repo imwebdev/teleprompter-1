@@ -1,35 +1,147 @@
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Teleprompter</title>
-      <link rel="stylesheet" href="styles.css">
-    </head>
-    <body>
-      <div class="container">
-        <div id="teleprompter"></div>
-        <div class="controls">
-          <button id="playPauseBtn">Play/Pause</button>
-          <input type="range" id="speedRange" min="1" max="10" value="5">
-          <label for="speedRange">Speed: </label>
-        </div>
-      </div>
-    
-      <script src="https://cdn.tiny.cloud/1/jg4drt19as5akn4ssar1rniaiu6oyn0n2a69minhoqb3a6w4/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
-      <script>
-        tinymce.init({
-          selector: '#teleprompter',
-          plugins: 'autoresize',
-          menubar: false,
-          toolbar: false,
-          statusbar: false,
-          width: '100%',
-          height: '100%',
-          autoresize_bottom_margin: 0
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teleprompter</title>
+  <style>
+    /* CSS to make the entire page black */
+    body {
+      background-color: black;
+      color: white; /* Change text color to white for better readability */
+      position: relative; /* Position the "Back to Top" button */
+      overflow-x: hidden; /* Hide horizontal overflow */
+    }
+    .container {
+      background-color: black;
+      color: white; /* Change text color to white for better readability */
+      max-width: 800px; /* Set maximum width for the container */
+      margin: 0 auto; /* Center the container horizontally */
+      transition: max-width 0.5s ease; /* Add transition effect for smoother resizing */
+    }
+    .controls {
+      position: absolute; /* Position the "Play" button */
+      top: 20px; /* Adjust top position */
+      left: 50%; /* Center horizontally */
+      transform: translateX(-50%); /* Center horizontally */
+    }
+    .controls button {
+      background-color: white; /* Change button background color to white */
+      color: black; /* Change button text color to black */
+    }
+    .back-to-top {
+      position: fixed; /* Position the "Back to Top" button */
+      bottom: 20px; /* Adjust bottom position */
+      right: 20px; /* Adjust right position */
+      display: none; /* Initially hide the button */
+      background-color: white; /* Change button background color to white */
+      color: black; /* Change button text color to black */
+      padding: 10px 20px; /* Add padding */
+      border: none; /* Remove border */
+      border-radius: 5px; /* Add border radius */
+      cursor: pointer; /* Change cursor to pointer on hover */
+    }
+    .back-to-top:hover {
+      background-color: lightgray; /* Change button background color on hover */
+    }
+    /* Remove border around the editor */
+    .tox-tinymce {
+      border: none !important;
+    }
+  </style>
+</head>
+<body>
+  <button id="playPauseBtn" class="controls">Play/Pause</button>
+  <div class="slider-container">
+    <div class="width-control">
+      <label for="widthRange">Page Width:</label>
+      <input type="range" id="widthRange" min="300" max="1200" value="800">
+    </div>
+    <div class="speed-control">
+      <label for="speedRange">Speed:</label>
+      <input type="range" id="speedRange" min="1" max="10" value="5">
+    </div>
+  </div>
+  <div class="container">
+    <div id="teleprompter"></div>
+  </div>
+  <button id="backToTopBtn" class="back-to-top">Back to Top</button>
+
+  <script src="https://cdn.tiny.cloud/1/jg4drt19as5akn4ssar1rniaiu6oyn0n2a69minhoqb3a6w4/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+  <script>
+    tinymce.init({
+      selector: '#teleprompter',
+      plugins: 'autoresize',
+      menubar: true, // Show the toolbar
+      toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat',
+      statusbar: false,
+      width: '100%',
+      height: 'calc(100vh - 100px)', // Adjust height to account for the slider controls
+      autoresize_bottom_margin: 0,
+      content_style: 'body { background-color: black; color: white; font-size: 50px; }', // Set background color of TinyMCE editor
+      init_instance_callback: function (editor) {
+        editor.getBody().style.border = 'none'; // Remove border around the editor
+        // Add event listener for paste event to replace multiple spaces with one space
+        editor.on('paste', function (e) {
+          e.content = e.content.replace(/\s+/g, ' '); // Replace multiple spaces with one space
         });
-      </script>
-      <script src="script.js"></script>
-    </body>
-    </html>
-    
+      }
+    });
+
+    const widthRange = document.getElementById('widthRange');
+    const container = document.querySelector('.container');
+    const speedRange = document.getElementById('speedRange');
+    const backToTopBtn = document.getElementById('backToTopBtn');
+
+    let isPlaying = false;
+    let scrollInterval;
+
+    document.getElementById('playPauseBtn').addEventListener('click', togglePlayPause);
+    speedRange.addEventListener('input', setScrollSpeed);
+    backToTopBtn.addEventListener('click', scrollToTop);
+
+    function togglePlayPause() {
+      isPlaying = !isPlaying;
+      if (isPlaying) {
+        startScrolling();
+        document.documentElement.requestFullscreen(); // Enter full-screen mode
+        this.textContent = 'Pause';
+      } else {
+        stopScrolling();
+        document.exitFullscreen(); // Exit full-screen mode
+        this.textContent = 'Play';
+      }
+    }
+
+    function startScrolling() {
+      scrollInterval = setInterval(() => {
+        container.scrollTop += 1;
+      }, 100 - speedRange.value * 5);
+    }
+
+    function stopScrolling() {
+      clearInterval(scrollInterval);
+    }
+
+    function setScrollSpeed() {
+      if (isPlaying) {
+        stopScrolling();
+        startScrolling();
+      }
+    }
+
+    function scrollToTop() {
+      document.documentElement.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top with smooth behavior
+    }
+
+    // Show "Back to Top" button when user scrolls down
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        backToTopBtn.style.display = 'block';
+      } else {
+        backToTopBtn.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
