@@ -10,151 +10,145 @@
       background-color: black;
       color: white; /* Change text color to white for better readability */
       overflow-x: hidden; /* Hide horizontal overflow */
+      margin: 0; /* Remove default margin */
+      padding: 0; /* Remove default padding */
     }
-    .container {
-      background-color: black;
-      color: white; /* Change text color to white for better readability */
-      max-width: 800px; /* Set maximum width for the container */
-      margin: 0 auto; /* Center the container horizontally */
-      transition: max-width 0.5s ease; /* Add transition effect for smoother resizing */
+    .header {
+      position: fixed; /* Fixed position */
+      top: 0; /* Position at the top of the page */
+      width: 100%; /* Full width */
+      background-color: black; /* Black background */
+      padding: 10px; /* Add padding */
+      z-index: 1000; /* Ensure it's above other elements */
+      display: flex; /* Use flexbox for layout */
+      justify-content: space-between; /* Space out items */
+      align-items: center; /* Center items vertically */
     }
     .controls {
-      position: fixed; /* Position the "Play" button */
-      top: 20px; /* Adjust top position */
-      left: 50%; /* Center horizontally */
-      transform: translateX(-50%); /* Center horizontally */
+      display: flex; /* Use flexbox for layout */
+      gap: 10px; /* Add space between controls */
     }
     .controls button {
       background-color: white; /* Change button background color to white */
       color: black; /* Change button text color to black */
-    }
-    .back-to-top {
-      position: fixed; /* Position the "Back to Top" button */
-      bottom: 20px; /* Adjust bottom position */
-      right: 20px; /* Adjust right position */
-      display: none; /* Initially hide the button */
-      background-color: white; /* Change button background color to white */
-      color: black; /* Change button text color to black */
-      padding: 10px 20px; /* Add padding */
       border: none; /* Remove border */
+      padding: 5px 10px; /* Add padding */
       border-radius: 5px; /* Add border radius */
       cursor: pointer; /* Change cursor to pointer on hover */
     }
-    .back-to-top:hover {
-      background-color: lightgray; /* Change button background color on hover */
+    .teleprompter-container {
+      margin-top: 50px; /* Add margin to create space for the fixed header */
     }
-    /* Remove border around the editor */
-    .tox-tinymce {
-      border: none !important;
+    .container {
+      max-width: 800px; /* Set maximum width for the container */
+      margin: 0 auto; /* Center the container horizontally */
+    }
+    #teleprompter {
+      font-size: 50px; /* Set font size to 50px */
+      line-height: 1.5; /* Adjust line height as needed */
     }
   </style>
 </head>
 <body>
-  <button id="playPauseBtn" class="controls">Play/Pause</button>
-  <div class="slider-container">
-    <div class="width-control">
+  <div class="header">
+    <div class="controls">
+      <button id="playPauseBtn">Play/Pause</button>
       <label for="widthRange">Page Width:</label>
       <input type="range" id="widthRange" min="300" max="1200" value="800">
-    </div>
-    <div class="speed-control">
       <label for="speedRange">Speed:</label>
-      <input type="range" id="speedRange" min="1" max="10" value="5">
+      <input type="range" id="speedRange" min="0.1" max="5" value="1">
     </div>
   </div>
-  <div class="container">
-    <div id="teleprompter"></div>
-  </div>
-  <button id="backToTopBtn" class="back-to-top">Back to Top</button>
+  <div class="teleprompter-container">
+    <div class="container">
+      <div id="teleprompter">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed erat eu diam finibus pharetra at vitae dui. Cras metus dui, tempor nec hendrerit et, consectetur id libero. In vitae nunc ac massa bibendum finibus ut vitae elit. Nunc pulvinar pretium nisi, nec scelerisque purus bibendum eget. Sed malesuada, mi tempus scelerisque ornare, mauris turpis blandit felis, vel sollicitudin metus mi at nunc. Sed sit amet mi euismod, interdum ante quis, imperdiet enim. Suspendisse auctor mauris eget velit bibendum, sit amet interdum magna ultrices. Fusce finibus, lorem quis consequat mattis, est lectus posuere felis, id pretium ex quam eget tellus.
 
+        Pellentesque vehicula libero id velit blandit malesuada. Nunc eget sapien nec magna aliquet suscipit. Vivamus ut orci a nulla commodo consectetur nec consectetur orci. Proin ullamcorper purus eget turpis malesuada suscipit. Etiam non hendrerit dui, at posuere risus. Sed dignissim finibus lorem, eget finibus felis bibendum vel. Sed dignissim eros sed eros faucibus, vitae sagittis justo finibus. Cras at justo ultricies, pulvinar enim non, pharetra dolor. Ut facilisis leo eget mi accumsan aliquet sed sed orci. Donec at faucibus tellus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eu lacus quis neque efficitur venenatis.
+
+        Suspendisse potenti. Integer nec facilisis dui. Sed sagittis accumsan purus vel varius. Aenean at magna dolor. Donec ac purus erat. Etiam a odio massa. Phasellus lobortis facilisis arcu. Vestibulum dignissim ultrices orci quis rutrum. Vivamus luctus rhoncus aliquam. In eleifend lobortis mauris, in lacinia tortor scelerisque ac. Vestibulum eu arcu in purus bibendum mattis. Suspendisse potenti. Nam pharetra velit nec mi sollicitudin, non porttitor magna suscipit.
+
+        Phasellus eget massa felis. Suspendisse ut quam vestibulum, fermentum augue gravida, placerat magna. Vestibulum eget tincidunt ligula, sed laoreet turpis. In augue nisi, scelerisque in orci vel, lobortis mattis leo. Mauris at tellus ullamcorper, cursus tortor eu, pulvinar purus. Aenean id sem elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas lectus elit, condimentum a ultrices eget, scelerisque a lectus. Morbi congue arcu nisi, eu dapibus enim vehicula et. Nullam aliquam dignissim neque in congue. Pellentesque at enim convallis, porta nulla eu, elementum ipsum. Vivamus viverra, massa ut porta gravida, ipsum tortor tempus lacus, ac accumsan sapien nunc at quam.
+      </div>
+    </div>
+  </div>
+  
   <script src="https://cdn.tiny.cloud/1/jg4drt19as5akn4ssar1rniaiu6oyn0n2a69minhoqb3a6w4/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
     tinymce.init({
       selector: '#teleprompter',
       plugins: 'autoresize',
-      menubar: true, // Show the toolbar
-      toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat',
+      menubar: false, // Hide the toolbar
       statusbar: false,
       width: '100%',
-      height: 'calc(100vh - 100px)', // Adjust height to account for the slider controls
+      height: 'calc(100vh - 50px)', // Adjust height to account for the fixed header
       autoresize_bottom_margin: 0,
-      content_style: 'body { background-color: black; color: white; font-size: 50px; }', // Set background color of TinyMCE editor
+      content_style: 'body { background-color: black; color: white; font-size: 50px; line-height: 1.5; }', // Set background color and font styles
       init_instance_callback: function (editor) {
         editor.getBody().style.border = 'none'; // Remove border around the editor
       }
     });
 
-    const container = document.querySelector('.container');
-    const speedRange = document.getElementById('speedRange');
-    const backToTopBtn = document.getElementById('backToTopBtn');
-    let isPlaying = false;
-    let scrollInterval;
+  const container = document.querySelector('.container');
+  const speedRange = document.getElementById('speedRange');
+  const playPauseBtn = document.getElementById('playPauseBtn');
+  let isPlaying = false;
+  let scrollInterval;
 
-    $('#playPauseBtn').click(togglePlayPause);
+    playPauseBtn.addEventListener('click', togglePlayPause);
     speedRange.addEventListener('input', setScrollSpeed);
-    backToTopBtn.addEventListener('click', scrollToTop);
+    widthRange.addEventListener('input', setPageWidth);
 
     function togglePlayPause() {
-      isPlaying = !isPlaying;
-      if (isPlaying) {
-        startScrolling();
-        document.documentElement.requestFullscreen(); // Enter full-screen mode
-        this.textContent = 'Pause';
-      } else {
-        stopScrolling();
-        document.exitFullscreen(); // Exit full-screen mode
-        this.textContent = 'Play';
+    if (!isPlaying) {
+      startScrolling();
+      playPauseBtn.textContent = 'Pause';
+    } else {
+      stopScrolling();
+      playPauseBtn.textContent = 'Play';
+    }
+    isPlaying = !isPlaying; // Toggle the isPlaying flag
+  }
+
+  function startScrolling() {
+    // Clear any existing scroll interval to prevent multiple intervals running simultaneously
+    stopScrolling();
+
+    // Calculate the scroll speed based on the value of the speed range input
+    const scrollSpeed = 100 - speedRange.value * 5;
+
+    // Calculate the distance to scroll in this interval based on the scroll speed
+    const distance = (scrollSpeed / 100) * container.scrollHeight;
+
+    // Scroll the container using jQuery's animate function
+    $('html, body').animate({ scrollTop: '+=' + distance }, { duration: 50000, easing: 'linear' });
+
+    // Start the scroll interval
+    scrollInterval = setInterval(() => {
+      // Check if the container has reached the bottom
+      if (container.scrollHeight - container.scrollTop <= container.clientHeight) {
+        // Reset scroll position to the top
+        container.scrollTop = 0;
       }
+    }, 1000); // Adjust the interval duration as needed
+  }
+
+  function stopScrolling() {
+    clearInterval(scrollInterval); // Stop the scroll interval
+    $('html, body').stop(); // Stop the jQuery animation
+  }
+
+  function setScrollSpeed() {
+    if (isPlaying) {
+      // Restart scrolling with the updated speed
+      startScrolling();
     }
+  }
 
-    function startScrolling() {
-  // Clear any existing scroll interval to prevent multiple intervals running simultaneously
-  stopScrolling();
-
-  // Calculate scroll speed based on the value of the speed range input
-  const scrollSpeed = 100 - speedRange.value * 5;
-
-  // Calculate the distance to scroll in this interval based on the scroll speed
-  const distance = (scrollSpeed / 100) * container.scrollHeight;
-
-  // Scroll the container using jQuery's animate function
-  $('html, body').animate({ scrollTop: '+=' + distance }, 1000); // Adjust the duration as needed
-
-  // Start the scroll interval
-  scrollInterval = setInterval(() => {
-    // Check if the container has reached the bottom
-    if (container.scrollHeight - container.scrollTop <= container.clientHeight) {
-      // Reset scroll position to the top
-      container.scrollTop = 0;
+    function setPageWidth() {
+      container.style.maxWidth = widthRange.value + 'px'; // Set container width based on the width range input
     }
-  }, 1000); // Adjust the interval duration as needed
-}
-
-
-    function stopScrolling() {
-      // Clear the scroll interval if it's running
-      clearInterval(scrollInterval);
-    }
-
-    function setScrollSpeed() {
-      if (isPlaying) {
-        // Restart scrolling with the updated speed
-        startScrolling();
-      }
-    }
-
-    function scrollToTop() {
-      document.documentElement.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top with smooth behavior
-    }
-
-    // Show "Back to Top" button when user scrolls down
-    $(window).scroll(() => {
-      if ($(window).scrollTop() > 100) {
-        $(backToTopBtn).fadeIn();
-      } else {
-        $(backToTopBtn).fadeOut();
-      }
-    });
   </script>
 </body>
 </html>
