@@ -1,154 +1,221 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Teleprompter</title>
-  <style>
-    /* CSS to make the entire page black */
-    body {
-      background-color: black;
-      color: white; /* Change text color to white for better readability */
-      overflow-x: hidden; /* Hide horizontal overflow */
-      margin: 0; /* Remove default margin */
-      padding: 0; /* Remove default padding */
-    }
-    .header {
-      position: fixed; /* Fixed position */
-      top: 0; /* Position at the top of the page */
-      width: 100%; /* Full width */
-      background-color: black; /* Black background */
-      padding: 10px; /* Add padding */
-      z-index: 1000; /* Ensure it's above other elements */
-      display: flex; /* Use flexbox for layout */
-      justify-content: space-between; /* Space out items */
-      align-items: center; /* Center items vertically */
-    }
-    .controls {
-      display: flex; /* Use flexbox for layout */
-      gap: 10px; /* Add space between controls */
-    }
-    .controls button {
-      background-color: white; /* Change button background color to white */
-      color: black; /* Change button text color to black */
-      border: none; /* Remove border */
-      padding: 5px 10px; /* Add padding */
-      border-radius: 5px; /* Add border radius */
-      cursor: pointer; /* Change cursor to pointer on hover */
-    }
-    .teleprompter-container {
-      margin-top: 50px; /* Add margin to create space for the fixed header */
-    }
-    .container {
-      max-width: 800px; /* Set maximum width for the container */
-      margin: 0 auto; /* Center the container horizontally */
-    }
-    #teleprompter {
-      font-size: 50px; /* Set font size to 50px */
-      line-height: 1.5; /* Adjust line height as needed */
-    }
-  </style>
-</head>
-<body>
-  <div class="header">
-    <div class="controls">
-      <button id="playPauseBtn">Play/Pause</button>
-      <label for="widthRange">Page Width:</label>
-      <input type="range" id="widthRange" min="300" max="1200" value="800">
-      <label for="speedRange">Speed:</label>
-      <input type="range" id="speedRange" min="0.1" max="5" value="1">
-    </div>
-  </div>
-  <div class="teleprompter-container">
-    <div class="container">
-      <div id="teleprompter">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed erat eu diam finibus pharetra at vitae dui. Cras metus dui, tempor nec hendrerit et, consectetur id libero. In vitae nunc ac massa bibendum finibus ut vitae elit. Nunc pulvinar pretium nisi, nec scelerisque purus bibendum eget. Sed malesuada, mi tempus scelerisque ornare, mauris turpis blandit felis, vel sollicitudin metus mi at nunc. Sed sit amet mi euismod, interdum ante quis, imperdiet enim. Suspendisse auctor mauris eget velit bibendum, sit amet interdum magna ultrices. Fusce finibus, lorem quis consequat mattis, est lectus posuere felis, id pretium ex quam eget tellus.
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-        Pellentesque vehicula libero id velit blandit malesuada. Nunc eget sapien nec magna aliquet suscipit. Vivamus ut orci a nulla commodo consectetur nec consectetur orci. Proin ullamcorper purus eget turpis malesuada suscipit. Etiam non hendrerit dui, at posuere risus. Sed dignissim finibus lorem, eget finibus felis bibendum vel. Sed dignissim eros sed eros faucibus, vitae sagittis justo finibus. Cras at justo ultricies, pulvinar enim non, pharetra dolor. Ut facilisis leo eget mi accumsan aliquet sed sed orci. Donec at faucibus tellus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eu lacus quis neque efficitur venenatis.
+    <title>TelePrompter</title>
 
-        Suspendisse potenti. Integer nec facilisis dui. Sed sagittis accumsan purus vel varius. Aenean at magna dolor. Donec ac purus erat. Etiam a odio massa. Phasellus lobortis facilisis arcu. Vestibulum dignissim ultrices orci quis rutrum. Vivamus luctus rhoncus aliquam. In eleifend lobortis mauris, in lacinia tortor scelerisque ac. Vestibulum eu arcu in purus bibendum mattis. Suspendisse potenti. Nam pharetra velit nec mi sollicitudin, non porttitor magna suscipit.
+    <!-- Mobile Specific Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="TelePrompter" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="theme-color" content="#141414" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,viewport-fit=cover" />
 
-        Phasellus eget massa felis. Suspendisse ut quam vestibulum, fermentum augue gravida, placerat magna. Vestibulum eget tincidunt ligula, sed laoreet turpis. In augue nisi, scelerisque in orci vel, lobortis mattis leo. Mauris at tellus ullamcorper, cursus tortor eu, pulvinar purus. Aenean id sem elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas lectus elit, condimentum a ultrices eget, scelerisque a lectus. Morbi congue arcu nisi, eu dapibus enim vehicula et. Nullam aliquam dignissim neque in congue. Pellentesque at enim convallis, porta nulla eu, elementum ipsum. Vivamus viverra, massa ut porta gravida, ipsum tortor tempus lacus, ac accumsan sapien nunc at quam.
+    <!-- Default Meta Tags -->
+    <meta name="description" content="Browser-based TelePrompter with Remote Control">
+    <meta name="keywords" content="TelePrompter, Remote, Browser, Open Source">
+    <meta name="cache-control" content="public">
+    <meta name="company" content="Fatal Encounters">
+    <meta name="googlebot" content="index,follow">
+    <meta name="robots" content="noodp,noydir">
+    <meta name="robots" content="index,follow">
+    <meta name="author" content="Peter Schmalfeldt">
+
+    <!-- Twitter META Info -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:site" content="@mrmidi">
+    <meta property="twitter:title" content="TelePrompter">
+    <meta property="twitter:description" content="Browser-based TelePrompter with Remote Control">
+    <meta property="twitter:creator" content="@mrmidi">
+    <meta property="twitter:image:src" content="https://promptr.tv/assets/img/social-card.png">
+    <meta property="twitter:domain" content="promptr.tv">
+
+    <!-- Open Graph protocol -->
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="TelePrompter">
+    <meta property="og:url" content="https://promptr.tv">
+    <meta property="og:image" content="https://promptr.tv/assets/img/social-card.png">
+    <meta property="og:site_name" content="TelePrompter">
+    <meta property="og:description" content="Browser-based TelePrompter with Remote Control">
+
+    <!-- Dublin Core Metadata -->
+    <meta name="dc:language" content="en_US">
+    <meta name="dc:title" content="TelePrompter">
+    <meta name="dc:source" content="https://promptr.tv">
+    <meta name="dc:description" content="Browser-based TelePrompter with Remote Control">
+
+    <!-- Manifest -->
+    <link rel="manifest" href="manifest.json" />
+
+    <!-- Icons -->
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="192x192" href="assets/img/apple/icon-192x192.png" />
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://promptr.tv" />
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/redmond/jquery-ui.min.css" />
+    <link rel="stylesheet" href="assets/css/style.v122.css">
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+
+    <!-- DNS Pre-Connects -->
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
+    <link rel="preconnect" href="https://code.jquery.com/" crossorigin />
+
+    <!-- Preload Assets -->
+    <link rel="preload" href="assets/font/fontawesome-webfont.woff?v=3.2.1" as="font" type="font/woff2" crossorigin>
+  </head>
+
+  <body id="gui">
+    <a href="https://github.com/manifestinteractive/teleprompter#readme" id="get-help" target="_blank" title="Get Help with TelePrompter" aria-label="Get Help with TelePrompter" data-ga data-category="Nav" data-action="Help" data-label="Get Help">
+      <i class="icon-question-sign"></i>
+    </a>
+    <div id="modal">
+      <a class="button icon-remove-circle close-modal" href="javascript:void(0)" role="button" aria-label="Close Modal" title="Close Modal" data-ga data-category="Nav" data-action="Modal" data-label="Close Modal"></a>
+
+      <div class="modal-content">
+        <!-- Remote Control -->
+        <div id="remote-control-modal">
+          <h1>Remote Control</h1>
+          <p>Access the Following URL from another device:</p>
+          <p class="remote-url">https://promptr.tv/remote</p>
+          <p>Enter this Remote ID:</p>
+          <p class="remote-id"></p>
+          <div id="qr-code"></div>
+          <p>Remote Control QR Code</p>
+        </div>
+
+        <!-- Software Update -->
+        <div id="software-update">
+          <h1>Software Update</h1>
+          <p>Thanks for using <strong>TelePrompter</strong>. We just wanted to let you know that we have updated our site since the last time you visited.</p>
+          <a href="https://github.com/manifestinteractive/teleprompter/releases/latest" target="_blank" rel="nofollow noopener" data-ga data-category="Nav" data-action="Software Update" data-label="See Updates">See Updates</a>
+        </div>
       </div>
+      <div class="modal-overlay"></div>
     </div>
-  </div>
-  
-  <script src="https://cdn.tiny.cloud/1/jg4drt19as5akn4ssar1rniaiu6oyn0n2a69minhoqb3a6w4/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script>
-    tinymce.init({
-      selector: '#teleprompter',
-      plugins: 'autoresize',
-      menubar: false, // Hide the toolbar
-      statusbar: false,
-      width: '100%',
-      height: 'calc(100vh - 50px)', // Adjust height to account for the fixed header
-      autoresize_bottom_margin: 0,
-      content_style: 'body { background-color: black; color: white; font-size: 50px; line-height: 1.5; }', // Set background color and font styles
-      init_instance_callback: function (editor) {
-        editor.getBody().style.border = 'none'; // Remove border around the editor
+
+    <header>
+      <h1><i class="icon icon-bullhorn"></i> <span class="clock">00:00:00</span></h1>
+      <nav>
+        <div class="colors" role="group" aria-label="Color Pickers">
+          <input type="color" id="text-color" value="#ffffff" aria-label="Text Color">
+          <input type="color" id="background-color" value="#141414" aria-label="Background Color">
+        </div>
+        <div class="sliders">
+          <label class="font_size_label" aria-label="Font Size">
+            Font <span>(60)</span>:&nbsp;
+            <div class="font_size slider"></div>
+          </label><br>
+          <label class="speed_label" aria-label="Page Speed">
+            Speed <span>(35)</span>:&nbsp;
+            <div class="speed slider"></div>
+          </label>
+        </div>
+        <div class="buttons" role="group" aria-label="TelePrompter Controls">
+          <button class="button small icon-tablet remote" aria-label="Remote Control" title="Remote Control" data-ga data-category="Nav" data-action="Control" data-label="Remote"></button>
+          <button class="button small icon-eye-close dim-controls" aria-label="Dim While Reading" title="Dim While Reading" data-ga data-category="Nav" data-action="Control" data-label="Dim"></button>
+          <button class="button small icon-undo reset" aria-label="Reset TelePrompter" title="Reset TelePrompter" data-ga data-category="Nav" data-action="Control" data-label="Reset"></button>
+          <button class="button small icon-text-width flip-x" aria-label="Flip Text Horizontally" title="Flip Text Horizontally" data-ga data-category="Nav" data-action="Control" data-label="FlipX"></button>
+          <button class="button small icon-text-height flip-y" aria-label="Flip Text Vertically" title="Flip Text Vertically" data-ga data-category="Nav" data-action="Control" data-label="FlipY"></button>
+          <button class="button icon-play play active" aria-label="Play / Pause" title="Play / Pause TelePrompter" data-ga data-category="Nav" data-action="Control" data-label="Play"></button>
+        </div>
+      </nav>
+    </header>
+    <article>
+      <div class="overlay">
+        <div class="top"></div>
+        <div class="bottom"></div>
+      </div>
+      <div class="teleprompter" id="teleprompter" role="textbox" aria-multiline="true" aria-label="TelePrompter Text" contenteditable>
+        Oh, hello there. I did not see you come in. I was too busy reading off this TelePrompter. It does some pretty cool
+        things, for example:
+        <br><br>
+        You can edit the text right on the page. It'll even save it for you if you happen to leave the page. That's some
+        smart thinking.
+        <br><br>
+        If you're using an iPad, you can add a shortcut to your home screen for full screen awesomeness.
+        <br><br>
+        You can also use some handy keyboard shortcuts to speed things up. You can adjust the speed and font size at the
+        top right as well. We're also experimenting with ways to flip the text around for you fancy folks using mirrors.
+        <br><br>
+        The keyboard shortcuts are as follows:
+        <br><br>
+        Up: Increases Font Size
+        <br><br>
+        Down: Decreases Font Size
+        <br><br>
+        Left: Slows Down Teleprompter
+        <br><br>
+        Right: Speeds Up Teleprompter
+        <br><br>
+        Space: Starts / Stops Teleprompter
+        <br><br>
+        Escape: Resets Everything
+        <br><br>
+        Finally, we also made an effort to make sure your text will be easy to read. So if you are pasting text from a
+        Microsoft Word document, we'll do some cleaning up to make the breaks flow more easily.
+        <br><br>
+        Thanks for stopping by.
+        <br><br>
+        Love this TelePrompter?
+        <br><br>
+        <a href="https://github.com/manifestinteractive/teleprompter#project-support" contenteditable="false" class="sponsor-project" target="_blank" title="Support TelePrompter" aria-label="Support TelePrompter" data-ga data-category="Nav" data-action="Help" data-label="Support TelePrompter">
+          Support Our Work :)
+        </a><br><br>
+        Thanks !!!
+      </div>
+      <i class="icon-play marker" style="display: none"></i>
+    </article>
+
+    <script>
+      (function(d, s, id) {
+        var js, tjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) { return; }
+        js = d.createElement(s);
+        js.id = id;
+        js.src = (window.location.hostname === 'promptr.tv')
+          ? 'https://promptr.tv/remote/socket.io/socket.io.js'
+          : 'http://' + window.location.hostname + ':3000/socket.io/socket.io.js';
+        tjs.parentNode.insertBefore(js, tjs);
+      }(document, 'script', 'teleprompter-socket'));
+    </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-S1R98WW400"></script>
+
+    <script>
+      window['ga-disable-G-S1R98WW400'] = (window.location.hostname !== 'promptr.tv');
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', 'G-S1R98WW400', {
+        'anonymize_ip': true,
+        'allow_google_signals': false
+      });
+    </script>
+
+    <script src="assets/js/plugins.v122.js"></script>
+    <script src="assets/js/script.v122.js"></script>
+
+    <script>
+      // Load Service Worker for PWA
+      if (typeof navigator !== 'undefined' && 'serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js').then(function(reg) {
+          console.log('Successfully registered service worker', reg);
+        }).catch(function(err) {
+          console.warn('Error whilst registering service worker', err);
+        });
       }
-    });
 
-  const container = document.querySelector('.container');
-  const speedRange = document.getElementById('speedRange');
-  const playPauseBtn = document.getElementById('playPauseBtn');
-  let isPlaying = false;
-  let scrollInterval;
-
-    playPauseBtn.addEventListener('click', togglePlayPause);
-    speedRange.addEventListener('input', setScrollSpeed);
-    widthRange.addEventListener('input', setPageWidth);
-
-    function togglePlayPause() {
-    if (!isPlaying) {
-      startScrolling();
-      playPauseBtn.textContent = 'Pause';
-    } else {
-      stopScrolling();
-      playPauseBtn.textContent = 'Play';
-    }
-    isPlaying = !isPlaying; // Toggle the isPlaying flag
-  }
-
-  function startScrolling() {
-    // Clear any existing scroll interval to prevent multiple intervals running simultaneously
-    stopScrolling();
-
-    // Calculate the scroll speed based on the value of the speed range input
-    const scrollSpeed = 100 - speedRange.value * 5;
-
-    // Calculate the distance to scroll in this interval based on the scroll speed
-    const distance = (scrollSpeed / 100) * container.scrollHeight;
-
-    // Scroll the container using jQuery's animate function
-    $('html, body').animate({ scrollTop: '+=' + distance }, { duration: 50000, easing: 'linear' });
-
-    // Start the scroll interval
-    scrollInterval = setInterval(() => {
-      // Check if the container has reached the bottom
-      if (container.scrollHeight - container.scrollTop <= container.clientHeight) {
-        // Reset scroll position to the top
-        container.scrollTop = 0;
-      }
-    }, 1000); // Adjust the interval duration as needed
-  }
-
-  function stopScrolling() {
-    clearInterval(scrollInterval); // Stop the scroll interval
-    $('html, body').stop(); // Stop the jQuery animation
-  }
-
-  function setScrollSpeed() {
-    if (isPlaying) {
-      // Restart scrolling with the updated speed
-      startScrolling();
-    }
-  }
-
-    function setPageWidth() {
-      container.style.maxWidth = widthRange.value + 'px'; // Set container width based on the width range input
-    }
-  </script>
-</body>
+      // Initialize App
+      window.onload = function() {
+        TelePrompter.init();
+      };
+    </script>
+  </body>
 </html>
