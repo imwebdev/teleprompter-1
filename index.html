@@ -182,7 +182,7 @@
         js.id = id;
         js.src = (window.location.hostname === 'promptr.tv')
           ? 'https://promptr.tv/remote/socket.io/socket.io.js'
-          : 'http://' + window.location.hostname + ':3000/socket.io/socket.io.js';
+          : 'https://' + window.location.hostname + ':3000/socket.io/socket.io.js';
         tjs.parentNode.insertBefore(js, tjs);
       }(document, 'script', 'teleprompter-socket'));
     </script>
