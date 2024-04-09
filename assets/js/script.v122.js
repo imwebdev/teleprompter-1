@@ -377,6 +377,22 @@ var TelePrompter = (function() {
       }
     });
 
+    // Create Width Slider
+    $elm.width.slider({
+      min: 0,
+      max: 50,
+      value: config.pageWidth,
+      orientation: 'horizontal',
+      range: 'min',
+      animate: true,
+      slide: function() {
+        updateSpeed(true);
+      },
+      change: function() {
+        updateWidth(true);
+      }
+    });
+
     // Run initial configuration on sliders
     if (config.fontSize !== defaultConfig.fontSize) {
       updateFontSize(false);
@@ -385,6 +401,10 @@ var TelePrompter = (function() {
     if (config.pageSpeed !== defaultConfig.pageSpeed) {
       updateSpeed(false);
     }
+
+    if (config.pageWidth !== defaultConfig.pageWidth) {
+      updateWidth(false);
+    }    
 
     // Clean up Empty Paragraph Tags
     $('p:empty', $elm.teleprompter).remove();
@@ -831,6 +851,7 @@ var TelePrompter = (function() {
       f5_key = 116,
       period_key = 190,
       tab = 9,
+      width = $elm.width.slider('value'),
       speed = $elm.speed.slider('value'),
       font_size = $elm.fontSize.slider('value');
 
@@ -1171,6 +1192,11 @@ var TelePrompter = (function() {
       updateFontSize(true, true);
     }
 
+    if (oldConfig.pageWidth !== newConfig.pageWidth) {
+      $elm.pageWidth.slider('value', newConfig.pageWidth);
+      updateWidth(true, true);
+    }
+
     if (oldConfig.pageSpeed !== newConfig.pageSpeed) {
       $elm.speed.slider('value', newConfig.pageSpeed);
       updateSpeed(true, true);
@@ -1352,6 +1378,36 @@ var TelePrompter = (function() {
     clearTimeout(timerGA);
     timerGA = setTimeout(function(){
       gaEvent('TP', 'Page Speed Changed', config.pageSpeed);
+    }, timerExp);
+
+    // Update URL Params
+    clearTimeout(timerURL);
+    timerURL = setTimeout(updateURL, timerExp);
+    updateURL();
+  }
+
+  function updateWidth(save, skipUpdate) {
+    config.pageWidth = $elm.speed.slider('value');
+    $('label.width_label > span').text('(' + $elm.width.slider('value') + ')');
+
+    if (save) {
+      localStorage.setItem('teleprompter_width', $elm.width.slider('value'));
+    }
+
+    if (socket && remote && !skipUpdate) {
+      clearTimeout(emitTimeout);
+      emitTimeout = setTimeout(function(){
+        socket.emit('clientCommand', 'updateConfig', config);
+      }, timerExp);
+    }
+
+    if (debug) {
+      console.log('[TP]', 'Page Width Changed:', config.pageWidth);
+    }
+
+    clearTimeout(timerGA);
+    timerGA = setTimeout(function(){
+      gaEvent('TP', 'Page Width Changed', config.pageWidth);
     }, timerExp);
 
     // Update URL Params
